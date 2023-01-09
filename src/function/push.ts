@@ -21,7 +21,7 @@ const run = async function (data: any) {
                 "timestamp": Date.now()
             })
         }
-        const result = await client.send(new PutItemCommand(item));
+        const result: PutItemCommandOutput = await client.send(new PutItemCommand(item));
 
         console.log(result);
         } catch (err: any) {
@@ -31,7 +31,9 @@ const run = async function (data: any) {
     };
 
     const handler: Handler = async (event: HandlerEvent, context: HandlerContext): Promise<HandlerResponse> => {
-        const data = (JSON.parse(event.body ?? '{ }') as unknown) as any
+        const body = event.body ?? '{ }'
+        console.log('body:', body)
+        const data = JSON.parse(body)
         await run(data);
 
         return {
