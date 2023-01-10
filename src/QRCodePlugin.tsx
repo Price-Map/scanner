@@ -35,10 +35,12 @@ const Html5QrcodePlugin = (props: any) => {
             };
             console.log("App data", data);
             if (enableCamera) {
+                await scanner.scanner?.stop();
+                scanner.scanner?.clear();
+                setEnableCamera(false)
                 await postData(PRICE_MAP_URL, data);
             }
-            await scanner.scanner?.stop();
-            setEnableCamera(false)
+
         };
 
         if (enableCamera && !scanner.scanner) {
@@ -49,6 +51,7 @@ const Html5QrcodePlugin = (props: any) => {
 
         return () => {
             scanner.scanner?.clear();
+            scanner.scanner = undefined
         };
     }, [scanner, enableCamera, setEnableCamera]);
 

@@ -9,8 +9,8 @@ export interface IScannerContext {
 const qrcodeRegionId = "html5qr-code-full-region";
 
 export const config: any = {
-  fps: 10,
-  qrbox: 250,
+  fps: 20,
+  qrbox: 300,
   disableFlip: false,
   formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE]
   //supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
