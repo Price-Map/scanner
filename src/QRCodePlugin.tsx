@@ -1,8 +1,8 @@
 import { Html5Qrcode } from 'html5-qrcode';
 import { Html5QrcodeResult, QrcodeSuccessCallback } from 'html5-qrcode/esm/core';
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import Button from 'react-bootstrap/esm/Button';
 import { config, ScannerContext } from './ScannerContext';
-
 
 const PRICE_MAP_URL = 'https://pricemap.netlify.app/.netlify/functions/push';
 const CODE_REGEXP = /\d{44}/;
@@ -25,7 +25,7 @@ async function postData(url: string, data: Data) {
 
 const Html5QrcodePlugin = (props: any) => {
     const scanner = useContext(ScannerContext)
-    
+    const [enableCamera, setEnableCamera] = useState(false);
 
     useEffect(() => {
         const onNewScanResult: QrcodeSuccessCallback = async (decodedText: string, decodedResult: Html5QrcodeResult) => {
@@ -35,23 +35,32 @@ const Html5QrcodePlugin = (props: any) => {
             };
             console.log("App data", data);
             await postData(PRICE_MAP_URL, data);
-            scanner.scanner?.clear();
+            await scanner.scanner?.stop();
+            setEnableCamera(false)
         };
 
-        if (!scanner.scanner) {
+        if (enableCamera && !scanner.scanner) {
             console.log("rendering")
             scanner.scanner = new Html5Qrcode(scanner.id)
-            scanner.scanner.start({ facingMode: "environment" }, config, onNewScanResult, undefined);
+            scanner.scanner.start({ facingMode: "environment" }, config, onNewScanResult, undefined).catch(console.error);
         }
 
-        // cleanup function when component will unmount
         return () => {
             scanner.scanner?.clear();
         };
-    }, [scanner]);
+    }, [scanner, enableCamera, setEnableCamera]);
+
+    const onClick = useCallback(() => {
+        setEnableCamera(true);
+    }, [setEnableCamera]);
 
     return (
-        <div id={scanner.id} />
+        <>
+            <Button variant="primary" onClick={onClick}>
+                'scan'
+            </Button>
+            {enableCamera ? <div id={scanner.id} /> : <></>}
+        </>
     );
 };
 
