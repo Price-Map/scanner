@@ -34,7 +34,9 @@ const Html5QrcodePlugin = (props: any) => {
                 code: decodedText.match(CODE_REGEXP)?.[0] ?? ''
             };
             console.log("App data", data);
-            await postData(PRICE_MAP_URL, data);
+            if (enableCamera) {
+                await postData(PRICE_MAP_URL, data);
+            }
             await scanner.scanner?.stop();
             setEnableCamera(false)
         };
