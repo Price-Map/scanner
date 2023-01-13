@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Html5QrcodePlugin from './QRCodePlugin';
+import Html5QrcodePlugin from './components/QRCodePlugin';
 
 const App = () => {
     return (

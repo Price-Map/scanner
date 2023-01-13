@@ -6,8 +6,6 @@ export interface IScannerContext {
     scanner?: Html5Qrcode
 };
 
-const qrcodeRegionId = "html5qr-code-full-region";
-
 export const config: any = {
   fps: 20,
   qrbox: 300,
@@ -17,7 +15,7 @@ export const config: any = {
 };
 
 export const scanner: IScannerContext = {
-    id: qrcodeRegionId,
+    id: "html5qr-code-full-region",
     //scanner: new Html5Qrcode(qrcodeRegionId)
   }
 
