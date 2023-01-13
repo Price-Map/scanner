@@ -62,7 +62,7 @@ const Html5QrcodePlugin = (props: any) => {
     return (
         <>
             <Button variant="primary" onClick={onClick}>
-                'scan'
+                Escanear QR Code
             </Button>
             {enableCamera ? <div id={scanner.id} /> : <></>}
         </>
